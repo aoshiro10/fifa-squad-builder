@@ -19,17 +19,14 @@ public class PlayerScrapper {
 						"Italy Serie A", "Germany 1. Bundesliga", "France Ligue 1"};
 	
 	
-	static ArrayList<Player> goalKeepers = new ArrayList<Player>();
-	static ArrayList<Player> strikers = new ArrayList<Player>();
-	static ArrayList<Player> midfielders = new ArrayList<Player>();
-	static ArrayList<Player> leftWings = new ArrayList<Player>();
-	static ArrayList<Player> rightWings = new ArrayList<Player>();
-	static ArrayList<Player> leftBacks = new ArrayList<Player>();
-	static ArrayList<Player> rightBacks = new ArrayList<Player>();
-	static ArrayList<Player> centerBacks = new ArrayList<Player>();
-	
-	
-	static ArrayList<Squad> squads = new ArrayList<Squad>();
+	public static ArrayList<Player> goalKeepers = new ArrayList<Player>();
+	public static ArrayList<Player> strikers = new ArrayList<Player>();
+	public static ArrayList<Player> midfielders = new ArrayList<Player>();
+	public static ArrayList<Player> leftWings = new ArrayList<Player>();
+	public static ArrayList<Player> rightWings = new ArrayList<Player>();
+	public static ArrayList<Player> leftBacks = new ArrayList<Player>();
+	public static ArrayList<Player> rightBacks = new ArrayList<Player>();
+	public static ArrayList<Player> centerBacks = new ArrayList<Player>();
 	
 	
 	public static Player generatePlayer() {
@@ -42,8 +39,9 @@ public class PlayerScrapper {
 		String position = positions[positionIndex];
 		String league = leagues[leagueIndex];
 		int rating = getRandomRating();
+		int club = (int) (Math.random() * 20);
 		
-		return new Player(country, position, league, rating);
+		return new Player(country, position, league, rating, club);
 		
 	}
 	
@@ -103,27 +101,23 @@ public class PlayerScrapper {
 		
 	}
 	
-	
-	public static void generateSquads() {
+	public static ArrayList<Squad> generateSquads() {
 		
-		int totalSquads = 1000;
+		generateAllPlayers();
 		
-		for (int squadIndex = 0; squadIndex < totalSquads; squadIndex++) {
-			
-			
+		ArrayList<Squad> squads = new ArrayList<Squad>();
+		
+		for (int squadIndex = 0; squadIndex < SquadBuilder.populationSize; squadIndex++) {
 			
 			Squad squad = generateSquad();
-			
-			
 			
 			squads.add(squad);
 			
 		}
 		
+		return squads;
 		
 	}
-	
-	
 	
 	private static void addPlayerToArrayList(Player player) {
 		
@@ -155,26 +149,14 @@ public class PlayerScrapper {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
-	
-	
-	public static void main(String[] args) {
-		
-		generateAllPlayers();
-		generateSquads();
-		
-		System.out.println(squads.get(34).cdm.toString());
-		
-	}
+
 	
 	public static int getChemistry(Squad squad) {
 		
 		//https://www.eurogamer.net/articles/2018-10-13-fifa-19-chemistry-explained-how-to-increase-team-chemistry-individual-chemistry-fut-5019
-		
 		return 0;
 		
 	}
-	
-	
-	
+
 
 }
