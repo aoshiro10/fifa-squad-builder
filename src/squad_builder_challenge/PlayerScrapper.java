@@ -151,12 +151,6 @@ public class PlayerScrapper {
 	}
 
 	
-	public static int getChemistry(Squad squad) {
-		
-		//https://www.eurogamer.net/articles/2018-10-13-fifa-19-chemistry-explained-how-to-increase-team-chemistry-individual-chemistry-fut-5019
-		return 0;
-		
-	}
 
 
 }

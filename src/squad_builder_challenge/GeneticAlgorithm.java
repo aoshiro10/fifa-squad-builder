@@ -10,9 +10,7 @@ public class GeneticAlgorithm {
 		ArrayList<Squad> matingPool = new ArrayList<Squad>();
 		
 		for (int squadIndex = 0; squadIndex < SquadBuilder.squads.size(); squadIndex++) {
-			
-			
-			
+				
 			Squad squad = SquadBuilder.squads.get(squadIndex);
 			
 			for (int index = 0; index < squad.chemistry; index++) {
@@ -21,8 +19,6 @@ public class GeneticAlgorithm {
 				
 			}
 		}
-		
-		
 		
 		return matingPool;
 		
@@ -39,10 +35,8 @@ public class GeneticAlgorithm {
 			
 			Squad parent1 = matingPool.get((int) (Math.random() * matingPool.size()));
 			Squad parent2 = matingPool.get((int) (Math.random() * matingPool.size()));
-
 	
 			Squad crossOverSquad = crossOver(parent1, parent2);
-			
 			Squad mutatedSquad = mutate(crossOverSquad);
 			
 			squads.add(mutatedSquad);
@@ -73,7 +67,6 @@ public class GeneticAlgorithm {
 	}
 	
 	public static Squad mutate(Squad squad) {
-		
 		
 		for (int positionIndex = 0; positionIndex < 11; positionIndex ++) {
 			
