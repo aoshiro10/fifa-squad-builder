@@ -6,6 +6,7 @@ players = []
 
 for page in range(1,210):
 
+	print("page: ", page)
 
 	url = 'https://www.futhead.com/19/players/?page=' + str(page) + '&bin_platform=ps'
 
@@ -35,7 +36,10 @@ for page in range(1,210):
 
 
 
-		table = player_html.find_all('div', id='info-tab')[0]
+		table = player_html.find('div', id='info-tab')
+
+		if (table == None):
+			continue
 
 		player_data = table.find_all('a', class_='futhead-link')
 
@@ -47,6 +51,9 @@ for page in range(1,210):
 			endIndex = dataStr.find("</")
 			information = dataStr[startIndex:endIndex]
 			player_team.append(information)
+
+		if (len(player_team) < 3):
+			continue
 
 		player['club'] = player_team[0]
 		player['league'] = player_team[1]
@@ -67,6 +74,9 @@ for page in range(1,210):
 			endIndex = dataStr.find("</")
 			information = dataStr[startIndex:endIndex]
 			player_team.append(information)
+
+		if (len(player_team) < 6):
+			continue
 
 		player['rating'] = player_team[3]
 		player['name'] = player_team[4]

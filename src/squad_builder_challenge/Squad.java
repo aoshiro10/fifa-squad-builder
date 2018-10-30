@@ -109,7 +109,6 @@ public class Squad {
 				
 			}
 			
-			
 			return 5;
 		}
 		
