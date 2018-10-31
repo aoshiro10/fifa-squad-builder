@@ -128,15 +128,15 @@ public class GeneticAlgorithm {
 					
 				} else if (positionIndex == 9) {
 					
-					int newPlayerIndex = (int) (Math.random() * PlayerScrapper.strikers.size());
+					int newPlayerIndex = (int) (Math.random() * PlayerScrapper.midfielders.size());
 					
-					squad.lf = PlayerScrapper.strikers.get(newPlayerIndex);
+					squad.lf = PlayerScrapper.midfielders.get(newPlayerIndex);
 					
 				} else {
 					
-					int newPlayerIndex = (int) (Math.random() * PlayerScrapper.strikers.size());
+					int newPlayerIndex = (int) (Math.random() * PlayerScrapper.midfielders.size());
 					
-					squad.rf = PlayerScrapper.strikers.get(newPlayerIndex);
+					squad.rf = PlayerScrapper.midfielders.get(newPlayerIndex);
 					
 				}
 				

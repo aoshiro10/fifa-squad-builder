@@ -68,7 +68,7 @@ public class PlayerScrapper {
 	private static void addPlayer(Player player) {
 		
 		String position = player.position;
-		System.out.println(position);
+		
 		if (position.equals("CM") || position.equals("CAM") || 
 			position.equals("CDM") || position.equals("CF") || position.equals("ST")) {
 			midfielders.add(player);
