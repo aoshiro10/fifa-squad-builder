@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public final class Link {
 
     public static final Link[] links = {

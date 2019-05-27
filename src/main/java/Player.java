@@ -18,10 +18,6 @@ public final class Player {
         this.club = club;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
     public Position getPosition() {
         return position;
     }
@@ -36,10 +32,6 @@ public final class Player {
 
     public String getLeague() {
         return league;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Player copy() {
