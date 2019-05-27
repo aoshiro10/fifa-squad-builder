@@ -3,11 +3,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Objects.hash;
-
 public final class Squad {
 
     private Map<Position, Player> players;
+    private int chemistry = -1;
 
     public Squad(List<Player> playerList) {
         players = buildMap(playerList);
@@ -20,6 +19,52 @@ public final class Squad {
             map.put(position, player);
         }
         return map;
+    }
+
+    public int getChemistry() {
+        if (this.chemistry == -1) {
+            this.chemistry = calculateChemistry();
+        }
+        return chemistry;
+    }
+
+    private int calculateChemistry(){
+
+        int chemistry = 0;
+
+        Link[] links = Link.links;
+
+        for (Link link : links) {
+            Player player1 = getPlayer(link.getPosition1());
+            Player player2 = getPlayer(link.getPosition2());
+            chemistry += getLinkChemistry(player1, player2);
+        }
+
+        return chemistry;
+    }
+
+    private int getLinkChemistry(Player player1, Player player2) {
+
+        int strong = 6;
+        int normal = 4;
+        int weak = 2;
+
+        if (player1.getCountry().equals(player2.getCountry())) {
+            if (player1.getLeague().equals(player2.getLeague())) {
+                return strong;
+            }
+            return  normal;
+        }
+
+        if (player1.getLeague().equals(player2.getLeague())) {
+            if (player1.getClub().equals(player2.getClub())) {
+                return strong;
+            }
+            return normal;
+        }
+
+        return weak;
+
     }
 
     public Player getPlayer(Position position) {
