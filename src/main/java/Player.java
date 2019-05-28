@@ -40,7 +40,7 @@ public final class Player {
 
     @Override
     public int hashCode() {
-        return hash(name, country, rating, position, club, league);
+        return hash(name, country, club, league);
     }
 
     @Override
@@ -50,7 +50,6 @@ public final class Player {
         }
         Player player = (Player) obj;
         return (name.equals(player.name)) && (country.equals(player.country))
-                && (rating == player.rating) && (position.equals(player.position))
                 && (club.equals(player.club)) && (league.equals(player.league));
     }
 

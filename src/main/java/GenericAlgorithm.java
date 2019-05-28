@@ -3,16 +3,14 @@ import java.util.List;
 
 public class GenericAlgorithm {
 
-    public static void init(float mutationRate, List<Squad> squads) {
+    public static Squad init(float mutationRate, int populationSize, int maxGenerations) {
 
+        List<Squad> squads = getInitialSquads(populationSize);
         int generation = 0;
         Squad bestSquad = null;
 
-        boolean found = false;
+        while (generation < maxGenerations) {
 
-        while (!found) {
-
-            generation += 1;
             Squad tempBest = evaluate(squads);
 
             if ((bestSquad == null) || (bestSquad.getChemistry() < tempBest.getChemistry())) {
@@ -21,13 +19,29 @@ public class GenericAlgorithm {
             }
 
             if (bestSquad.getChemistry() >= 100) {
-                found = true;
+                break;
             }
-
             squads = getNextGeneration(mutationRate, squads);
-
+            generation += 1;
         }
 
+        return bestSquad;
+
+    }
+
+    private static List<Squad> getInitialSquads(int populationSize) {
+        List<Squad> squads = new ArrayList<>();
+        Position[] positions = Position.getPositions();
+        for (int i = 0; i < populationSize; i++) {
+            List<Player> playerList = new ArrayList<>();
+            for (Position position : positions) {
+                Player player = Scrapper.getPlayer(position);
+                playerList.add(player);
+            }
+            Squad squad = new Squad(playerList);
+            squads.add(squad);
+        }
+        return squads;
     }
 
     private static Squad evaluate(List<Squad> squads) {
@@ -35,7 +49,6 @@ public class GenericAlgorithm {
         Squad bestSquad = null;
 
         for (int squadIndex = 0; squadIndex < squads.size(); squadIndex++) {
-
             Squad squad = squads.get(squadIndex);
             int chemistry = squad.getChemistry();
             if ((bestSquad == null) || (bestSquad.getChemistry() < chemistry)) {
@@ -47,7 +60,7 @@ public class GenericAlgorithm {
     }
 
 
-    public static List<Squad> getNextGeneration(float mutationRate, List<Squad> squads) {
+    private static List<Squad> getNextGeneration(float mutationRate, List<Squad> squads) {
 
         List<Squad> newSquads = new ArrayList<Squad>();
         int populationSize = squads.size();
@@ -56,6 +69,7 @@ public class GenericAlgorithm {
         for (int squadIndex = 0; squadIndex < populationSize; squadIndex++) {
 
             Squad currentSquad = squadPool.get((int) (Math.random() * squadPool.size()));
+            newSquads.add(currentSquad);
             //squads.add(mutate(currentSquad, mutationRate));
 
         }
