@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GenericAlgorithm {
+public class GeneticAlgorithm {
 
     public static Squad init(float mutationRate, int populationSize, int maxGenerations) {
 
@@ -111,11 +111,10 @@ public class GenericAlgorithm {
         while (iteration < maxIterations) {
             int index = (int) (populationSize * Math.random());
             Squad possibleMate = squadPool.get(index);
-            if (mate.matetable(possibleMate)) {
+            if (mate.compatible(possibleMate)) {
                 return possibleMate;
             }
             iteration += 1;
-
         }
         int index = (int) (populationSize * Math.random());
         Squad randomMate = squadPool.get(index);
@@ -123,7 +122,6 @@ public class GenericAlgorithm {
     }
 
     private static List<Squad> getSquadPool(List<Squad> squads) {
-
         List<Squad> squadPool = new ArrayList<>();
         int populationSize = squads.size();
 
@@ -147,7 +145,5 @@ public class GenericAlgorithm {
         }
         return squadPool;
     }
-
-
 
 }

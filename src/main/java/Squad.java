@@ -3,17 +3,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Object representing a Fifa squad
+ */
 public final class Squad implements Comparable<Squad> {
 
-    private Map<Position, Player> players;
+    private Map<Position, Player> playersMap;
+    private List<Player> players;
     private int chemistry = -1;
     private String country;
     private String league;
 
+    /**
+     * Constructor for a new squad using a playerList
+     * with one player per position.
+     * @param playerList list of players in the squad.
+     * @requires playerList.size() == 11
+     */
     public Squad(List<Player> playerList) {
-        players = buildMap(playerList);
+        this.players = playerList;
+        this.playersMap = buildMap(playerList);
     }
 
+    /**
+     * Constructs the data structure mapping from position
+     * to player in the squad
+     * @param playerList list of players in the squad
+     * @return map
+     */
     private Map<Position, Player> buildMap(List<Player> playerList) {
 
         Map<String, Integer> leagueCount = new HashMap<>();
@@ -31,22 +48,30 @@ public final class Squad implements Comparable<Squad> {
             countryCount.put(country, countryCount.getOrDefault(country, 0) + 1);
         }
 
+        //Setting the country and squad of the current squad
         this.country = getTopKey(countryCount);
         this.league = getTopKey(leagueCount);
 
         return map;
     }
 
+    /**
+     * Getter for the dominant league in the squad
+     * @return dominant league
+     */
     public String getLeague() {
         return league;
     }
 
+    /**
+     * Getter for the dominant country in the squad
+     * @return dominant country
+     */
     public String getCountry() {
         return country;
     }
 
     private String getTopKey(Map<String, Integer> countMap) {
-
         String topKey = null;
         int topCount = -1;
 
@@ -57,10 +82,15 @@ public final class Squad implements Comparable<Squad> {
                 topCount = count;
             }
         }
-
         return topKey;
     }
 
+    /**
+     * Getter for squad's chemistry
+     * Chemistry is used as the fitness function in the
+     * genetic algorithm
+     * @return squad's chemistry
+     */
     public int getChemistry() {
         if (this.chemistry == -1) {
             this.chemistry = calculateChemistry();
@@ -83,10 +113,17 @@ public final class Squad implements Comparable<Squad> {
         return chemistry;
     }
 
-    public boolean matetable(Squad other) {
-        return ((other.getCountry().equals(this.getCountry())) || (other.getLeague().equals(this.getLeague())));
+    /**
+     * Checks if a squad can mate with the current squad
+     * @param other possible mate
+     * @return true if possible; false otherwise
+     */
+    public boolean compatible(Squad other) {
+        return ((other.getCountry().equals(this.getCountry()))
+                || (other.getLeague().equals(this.getLeague())));
     }
 
+    //TODO: calculations are estimates of the real chemistry between two players.
     private int getLinkChemistry(Player player1, Player player2) {
 
         int strong = 6;
@@ -99,70 +136,64 @@ public final class Squad implements Comparable<Squad> {
             }
             return  normal;
         }
-
         if (player1.getLeague().equals(player2.getLeague())) {
             if (player1.getClub().equals(player2.getClub())) {
                 return strong;
             }
             return normal;
         }
-
         return weak;
-
     }
 
+    /**
+     * Getter for the player at given position
+     * @param position position in squad
+     * @return player in given position
+     */
     public Player getPlayer(Position position) {
-        return players.get(position).copy();
+        return playersMap.get(position).copy();
     }
 
-    public List<Player> getPlayers() {
-        List<Player> playerList = new ArrayList<>();
-        for (Position position : this.players.keySet()) {
-            Player player = this.players.get(position);
-            playerList.add(player.copy());
-        }
-        return playerList;
-    }
-
-    public Squad copy() {
-        return new Squad(getPlayers());
-    }
-
-    public Squad substitute(List<Player> newPlayers) {
-        Squad newSquad = copy();
-        for (Player player : newPlayers) {
-            newSquad.players.put(player.getPosition(), player.copy());
-        }
-        return newSquad;
-    }
-
+    /**
+     * Creates a string representation of the squad
+     * @return string representation
+     */
     @Override
     public String toString() {
-        List<Player> playerList = getPlayers();
+
         StringBuilder stringBuilder = new StringBuilder();
-        for (Player player : playerList) {
+        for (Player player : this.players) {
             stringBuilder.append(player + "\n");
         }
         return stringBuilder.toString();
     }
 
+    /**
+     * Hashes the squad
+     * @return hashCode
+     */
     @Override
     public int hashCode() {
         int hashCode = 0;
-        for (Player player : getPlayers()) {
+        for (Player player : players) {
             hashCode += player.hashCode();
         }
         return hashCode;
     }
 
+    /**
+     * Checks current squad with input for equality
+     * @param obj object being compared
+     * @return true if equal; false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Squad)) {
             return false;
         }
         Squad squad = (Squad) obj;
-        for (Position position : this.players.keySet()) {
-            Player player = this.players.get(position);
+        for (Position position : this.playersMap.keySet()) {
+            Player player = this.playersMap.get(position);
             Player other = squad.getPlayer(position);
             if (!player.equals(other)) {
                 return false;
@@ -171,6 +202,11 @@ public final class Squad implements Comparable<Squad> {
         return true;
     }
 
+    /**
+     * Compare the squad to another one in terms of chemistry.
+     * @param o other squad
+     * @return -1 if less, 0 if equal, and +1 if greater
+     */
     @Override
     public int compareTo(Squad o) {
         return Integer.compare(this.getChemistry(), o.chemistry);

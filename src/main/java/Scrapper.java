@@ -1,5 +1,3 @@
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -7,10 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class for reading the players.txt in the resources folder
+ * and initializes the players.
+ */
 public class Scrapper {
 
     private static HashMap<Position, List<Player>> playerMap;
 
+    /**
+     * Reads the players.txt file and initializes the players.
+     * @throws FileNotFoundException players.txt file not found.
+     */
     public static void init() throws FileNotFoundException {
         if (playerMap != null) {
             return;
@@ -40,6 +46,8 @@ public class Scrapper {
             String club = attributes[clubIndex];
             String league = attributes[leagueIndex];
             String country = attributes[countryIndex];
+
+            //Mapping each player to it's corresponding position
             for (Position position : positions) {
                 Player player = new Player(name, position, rating, league, club, country);
                 List<Player> playerList;
@@ -55,6 +63,11 @@ public class Scrapper {
 
     }
 
+    /**
+     * Gets a random player from the input position
+     * @param position position of the player
+     * @return player
+     */
     public static Player getPlayer(Position position) {
         if (playerMap == null) {
             try {
