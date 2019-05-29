@@ -2,11 +2,15 @@
 
 Using genetic algorithm to build a Fifa Ultimate Team squad.
 
+## Running the Program
+
+#TODO
+
 ## Genetic Algorithm
 
 More about [Genetic Algorithm](https://towardsdatascience.com/introduction-to-genetic-algorithms-including-example-code-e396e98d8bf3)
 
-The Genetic Algorithm has 5 main components to:
+The Genetic Algorithm has 5 main components:
 1. Initial population
 2. Fitness function
 3. Selection
@@ -25,3 +29,13 @@ Params:
 #### Fitness function
 
 The fitness function is represented by the chemistry of each squad, an attribute from the [Links](https://github.com/aoshiro10/fifa-squad-builder/blob/master/src/main/java/Link.java) formed between [Players](https://github.com/aoshiro10/fifa-squad-builder/blob/master/src/main/java/Player.java) in specific [Positions](https://github.com/aoshiro10/fifa-squad-builder/blob/master/src/main/java/Position.java). To find the chemistry of the squad call ```getChemistry()``` method.  
+
+#### Selection
+
+#TODO
+
+#### Crossover
+
+
+#### Mutation
+
