@@ -151,7 +151,7 @@ public final class Squad implements Comparable<Squad> {
      * @return player in given position
      */
     public Player getPlayer(Position position) {
-        return playersMap.get(position).copy();
+        return playersMap.get(position);
     }
 
     /**

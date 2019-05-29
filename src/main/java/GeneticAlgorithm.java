@@ -2,8 +2,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class with the genetic algorithm to build Fifa ultimate team squads
+ */
 public class GeneticAlgorithm {
 
+    /**
+     * Initializes the genetic algorithm with the inputted hyperparams
+     * @param mutationRate probability of a mutation occurring to a given position
+     * @param populationSize number of squads per generation
+     * @param maxGenerations max number of generations evaluated
+     * @return best squad found under the max generations.
+     */
     public static Squad init(float mutationRate, int populationSize, int maxGenerations) {
 
         List<Squad> squads = getInitialSquads(populationSize);
@@ -30,6 +40,11 @@ public class GeneticAlgorithm {
 
     }
 
+    /**
+     * Gets initial population
+     * @param populationSize number of squads in each generation
+     * @return initial population of randomly created squads
+     */
     private static List<Squad> getInitialSquads(int populationSize) {
         List<Squad> squads = new ArrayList<>();
         Position[] positions = Position.getPositions();
@@ -45,8 +60,12 @@ public class GeneticAlgorithm {
         return squads;
     }
 
+    /**
+     * Gets the best squad in the current generation
+     * @param squads list of squads in current generation
+     * @return best squad determined by chemistry
+     */
     private static Squad evaluate(List<Squad> squads) {
-
         Squad bestSquad = null;
         for (int squadIndex = 0; squadIndex < squads.size(); squadIndex++) {
             Squad squad = squads.get(squadIndex);
@@ -55,11 +74,15 @@ public class GeneticAlgorithm {
                 bestSquad = squad;
             }
         }
-
         return bestSquad;
     }
 
-
+    /**
+     * Mutates the given squad with probability of the mutationRate passed
+     * @param mutationRate probability of mutation on each position
+     * @param squad current squad being mutated
+     * @return mutated squad
+     */
     private static Squad mutate(float mutationRate, Squad squad) {
         List<Player> players = new ArrayList<>();
         Position[] positions = Position.getPositions();
@@ -75,6 +98,12 @@ public class GeneticAlgorithm {
         return new Squad(players);
     }
 
+    /**
+     * Generates a new generation of squads given the current one
+     * @param mutationRate probability of mutation
+     * @param squads previous generation
+     * @return new generation of squads
+     */
     private static List<Squad> getNextGeneration(float mutationRate, List<Squad> squads) {
         List<Squad> newSquads = new ArrayList<>();
         int populationSize = squads.size();
@@ -89,6 +118,12 @@ public class GeneticAlgorithm {
         return newSquads;
     }
 
+    /**
+     * Mate two squads together
+     * @param squad1 squad1
+     * @param squad2 squad2
+     * @return offspring
+     */
     private static Squad mate(Squad squad1, Squad squad2) {
         List<Player> players = new ArrayList<>();
         Position[] positions = Position.getPositions();
@@ -104,6 +139,12 @@ public class GeneticAlgorithm {
         return new Squad(players);
     }
 
+    /**
+     * Finds an compatible mate in the squadpool for the current squad
+     * @param squadPool pool of squads for mating
+     * @param mate current squad looking for a mate
+     * @return compatible mate
+     */
     private static Squad findMate(List<Squad> squadPool, Squad mate) {
         int populationSize = squadPool.size();
         int maxIterations = 200;
@@ -121,12 +162,17 @@ public class GeneticAlgorithm {
         return randomMate;
     }
 
+    /**
+     * Generates a squad pool for mating
+     * @param squads current list of squads
+     * @return squad pool
+     */
     private static List<Squad> getSquadPool(List<Squad> squads) {
         List<Squad> squadPool = new ArrayList<>();
         int populationSize = squads.size();
 
         //sort squads by highest chemistry in descending order
-        Collections.sort(squads, Collections.reverseOrder());
+        squads.sort(Collections.reverseOrder());
 
         //percentage representation of the top 45 squads in future squad list
         //TODO: Make the number of top squad an input
